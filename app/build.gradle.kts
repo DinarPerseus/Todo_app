@@ -50,7 +50,20 @@ dependencies {
     //Gson
     implementation(libs.gson)
 
+    implementation (libs.retrofit.v290)
+    implementation (libs.retrofit2.converter.gson)
+    implementation (libs.kotlinx.coroutines.android)
 
+    //Glide
+    implementation (libs.glide)
+    annotationProcessor (libs.compiler)
+
+    //retrofit
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation (libs.retrofit.v290)
+    implementation (libs.retrofit2.converter.gson)
+    implementation (libs.okhttp)
 
 
     // ViewModel
@@ -58,6 +71,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx.v262)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.core.ktx.v1120)
+
+    //CoroutinesCallAdapter
+    implementation (libs.jakewharton.retrofit2.kotlin.coroutines.adapter)
 
 
 
@@ -73,3 +89,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
+
+

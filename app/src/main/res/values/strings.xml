@@ -9,4 +9,12 @@
     <string name="task_name">Task Name</string>
     <string name="profile">Profile</string>
     <string name="todo">TODO</string>
+    <string name="get_joke">Get Joke</string>
+    <string name="jokes">Jokes :</string>
+    <string name="card_image">Card Image</string>
+    <string name="card_title">Card Title</string>
+    <string name="this_is_a_sample_card_description">This is a sample card description.</string>
+    <string name="add_to_card">Add to card</string>
+    <string name="checkout">Checkout</string>
+    <string name="view_cart">View Cart</string>
 </resources>

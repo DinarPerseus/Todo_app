@@ -28,4 +28,11 @@
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile"
         />
+
+    <fragment
+        android:id="@+id/navigation_cart"
+        android:name="com.example.myapplication.ui.cart.CartFragment"
+        android:label="@string/view_cart"
+        tools:layout="@layout/fragment_cart"
+        />
 </navigation>

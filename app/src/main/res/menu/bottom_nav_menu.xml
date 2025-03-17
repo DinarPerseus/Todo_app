@@ -20,5 +20,11 @@
         android:icon="@drawable/user"
         android:title="@string/profile" />
 
+    <item
+        android:id="@+id/navigation_cart"
+        android:icon="@drawable/grocery_store"
+        android:title="@string/view_cart" />
+
+
 
 </menu>
