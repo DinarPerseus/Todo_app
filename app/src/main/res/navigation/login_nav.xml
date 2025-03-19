@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/login_nav"
+    app:startDestination="@id/login">
+
+    <fragment
+        android:id="@+id/login"
+        android:name="Login"
+        android:label="Login" />
+    <fragment
+        android:id="@+id/registration"
+        android:name="Registration"
+        android:label="Registration" />
+
+</navigation>
