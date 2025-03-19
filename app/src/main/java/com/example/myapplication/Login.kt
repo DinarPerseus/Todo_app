@@ -1,5 +1,5 @@
-package com.example.myapplication.ui.notifications
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +20,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -43,9 +44,14 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
+
+import com.example.myapplication.MainActivity
+import com.example.myapplication.MainActivity2
 import com.example.myapplication.R
 
-class NotificationsFragment : Fragment() {
+class Login : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,17 +78,6 @@ class NotificationsFragment : Fragment() {
         return view
     }
 
-    @Preview
-    @Composable
-    fun Greeting(name: String="Name") {
-        Text(
-            text = "Hello $name!",
-            color = Color.Blue,
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
-        )
-    }
 
 
 
@@ -153,6 +148,7 @@ class NotificationsFragment : Fragment() {
                         onForgotPasswordClick()
                     }
                     .align(Alignment.End)
+
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -160,7 +156,10 @@ class NotificationsFragment : Fragment() {
             Button(
                 onClick = {
                     Toast.makeText(context, "Login: $username, $password", Toast.LENGTH_SHORT).show()
-                    onLoginClick(username, password)
+                    val intent = Intent(context, MainActivity::class.java)
+                    startActivity(intent)
+
+                    //onLoginClick(username, password)
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -175,10 +174,12 @@ class NotificationsFragment : Fragment() {
             ) {
                 Text(text = "Don't have an account?")
                 Spacer(modifier = Modifier.padding(4.dp))
+
                 Text(
                     text = "Sign Up",
+                    color = Color.Blue,
                     modifier = Modifier.clickable {
-                        Toast.makeText(context, "Navigate to Sign Up", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.registration)
                         onSignUpClick()
                     }
                 )
