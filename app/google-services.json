@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "517257498318",
+    "project_id": "infinitasktrends",
+    "storage_bucket": "infinitasktrends.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517257498318:android:6afdd49f48969c72764a9f",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7KiSTOkqhIvArM1sPgwFLnbks6OMTLg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

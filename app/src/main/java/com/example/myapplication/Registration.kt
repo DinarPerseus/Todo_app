@@ -1,5 +1,8 @@
 
+import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,34 +46,37 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+
+import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class Registration : Fragment() {
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_notifications, container, false)
-        val composeView = view.findViewById<ComposeView>(R.id.composeView)
+        auth = Firebase.auth  // Initialize Firebase Auth
 
-        composeView.setContent {
-            RegistrationPage(
-                onRegisterClick = { firstName, lastName, email, password, confirmPassword ->
-                    // Handle registration logic here
-                    Toast.makeText(context, "Registration: $firstName, $lastName, $email, $password, $confirmPassword", Toast.LENGTH_SHORT).show()
-                },
-                onGoBackToLoginClick = {
-                    // Navigate back to the login screen
-                    Toast.makeText(context, "Go back to login", Toast.LENGTH_SHORT).show()
-                }
-            )
+        return ComposeView(requireContext()).apply {
+            setContent {
+                RegistrationPage(
+                    onRegisterClick = { firstName, lastName, email, password, confirmPassword ->
+                        createAccount(email, password)
+                    },
+                    onGoBackToLoginClick = {
+                        findNavController().navigate(R.id.login)
+                    }
+                )
+            }
         }
-
-        return view
     }
-
 
 
 
@@ -88,6 +94,7 @@ class Registration : Fragment() {
         var confirmPasswordVisible by remember { mutableStateOf(false) }
         val context = LocalContext.current
         var isPasswordValid by remember { mutableStateOf(true) }
+
         var isConfirmPasswordValid by remember { mutableStateOf(true) }
 
         Column(
@@ -97,36 +104,22 @@ class Registration : Fragment() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-
-            Text(
-                text = "Create a new account",
-                color = Color.Gray,
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-            OutlinedTextField(
-                value = firstName,
-                onValueChange = { firstName = it },
-                label = { Text("First Name") },
-                modifier = Modifier.fillMaxWidth()
-            )
+            Text("Create a new account", fontSize = 32.sp, fontWeight = FontWeight.Bold)
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            OutlinedTextField(
-                value = lastName,
-                onValueChange = { lastName = it },
-                label = { Text("Last Name") },
-                modifier = Modifier.fillMaxWidth()
-            )
+            OutlinedTextField(value = firstName, onValueChange = { firstName = it }, label = { Text("First Name") }, modifier = Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.height(16.dp))
 
+            OutlinedTextField(value = lastName, onValueChange = { lastName = it }, label = { Text("Last Name") }, modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedTextField(
                 value = email,
-                onValueChange = { email = it },
+                onValueChange = {
+                    email = it
+
+                },
                 label = { Text("Email") },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
@@ -145,22 +138,13 @@ class Registration : Fragment() {
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 trailingIcon = {
-                    val image = if (passwordVisible)
-                        Icons.Filled.Visibility
-                    else Icons.Filled.VisibilityOff
-
-                    val description = if (passwordVisible) "Hide password" else "Show password"
-
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(imageVector = image, description)
+                        Icon(if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff, contentDescription = null)
                     }
                 }
             )
             if (!isPasswordValid) {
-                Text(
-                    text = "Password must contain minimum 8 characters, 1 minimum number, 1 minimum digit, and 1 minimum uppercase.",
-                    color = Color.Red
-                )
+                Text("Password must be at least 8 characters with 1 digit, 1 uppercase, and 1 special character.", color = Color.Red)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -176,22 +160,13 @@ class Registration : Fragment() {
                 visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 trailingIcon = {
-                    val image = if (confirmPasswordVisible)
-                        Icons.Filled.Visibility
-                    else Icons.Filled.VisibilityOff
-
-                    val description = if (confirmPasswordVisible) "Hide password" else "Show password"
-
                     IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
-                        Icon(imageVector = image, description)
+                        Icon(if (confirmPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff, contentDescription = null)
                     }
                 }
             )
             if (!isConfirmPasswordValid) {
-                Text(
-                    text = "Confirm password does not match.",
-                    color = Color.Red
-                )
+                Text("Passwords do not match.", color = Color.Red)
             }
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -199,28 +174,28 @@ class Registration : Fragment() {
             Button(
                 onClick = {
                     if (isPasswordValid && isConfirmPasswordValid) {
-                        Toast.makeText(context, "Registration successful", Toast.LENGTH_SHORT).show()
                         onRegisterClick(firstName, lastName, email, password, confirmPassword)
                     } else {
-                        Toast.makeText(context, "Please fill all fields correctly", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Please fix errors before registering.", Toast.LENGTH_SHORT).show()
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Register")
             }
+
             Spacer(modifier = Modifier.height(16.dp))
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(text = "Already have an account?")
+                Text("Already have an account?")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
                     text = "Login",
                     color = Color.Blue,
                     modifier = Modifier.clickable {
-                        findNavController().navigate(R.id.login)
                         onGoBackToLoginClick()
                     }
                 )
@@ -229,11 +204,22 @@ class Registration : Fragment() {
     }
 
     private fun isValidPassword(password: String): Boolean {
-        if (password.length < 8) return false
-        if (!password.any { it.isDigit() }) return false
-        if (!password.any { it.isLetter() }) return false
-        if (!password.any { it.isUpperCase() }) return false
-        return true
+        val regex = Regex("^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#\$%^&+=!]).{8,}\$")
+        return regex.matches(password)
+    }
+
+    private fun createAccount(email: String, password: String) {
+
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "createUserWithEmail:success")
+                    startActivity(Intent(requireContext(), MainActivity::class.java))
+                } else {
+                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                    Toast.makeText(requireContext(), "Authentication failed.", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     @Preview(showBackground = true)
@@ -241,10 +227,6 @@ class Registration : Fragment() {
     fun RegistrationPagePreview() {
         RegistrationPage(onRegisterClick = { _, _, _, _, _ -> }, onGoBackToLoginClick = {})
     }
-
-
-
-
-
 }
+
 

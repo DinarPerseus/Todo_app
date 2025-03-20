@@ -1,3 +1,4 @@
+package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,29 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,45 +25,74 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
-
-import com.example.myapplication.MainActivity
-import com.example.myapplication.MainActivity2
-import com.example.myapplication.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.ktx.auth
 
 class Login : Fragment() {
+
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_notifications, container, false)
+        val view = inflater.inflate(R.layout.login, container, false)
         val composeView = view.findViewById<ComposeView>(R.id.composeView)
+
+        auth = Firebase.auth // Initialize Firebase Auth
 
         composeView.setContent {
             LoginPage(
-                onLoginClick = { username, password ->
-                    // Handle login logic here
+                onLoginClick = { email, password ->
+                    loginUser(email, password)
                 },
                 onSignUpClick = {
-                    // Navigate to the sign-up screen
+                    findNavController().navigate(R.id.registration)
                 },
                 onForgotPasswordClick = {
-                    // Navigate to the forgot password screen
+                   // findNavController().navigate(R.id.forgotPassword)
                 }
             )
         }
 
         return view
+
+
     }
 
+    /** Function to validate email format */
+    private fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+    /** Function to handle Firebase login with validation */
+    private fun loginUser(email: String, password: String) {
+        if (!isValidEmail(email)) {
+            Toast.makeText(requireContext(), "Invalid Email Format", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (password.length < 6) {
+            Toast.makeText(requireContext(), "Password must be at least 6 characters", Toast.LENGTH_SHORT).show()
+            return
+        }
 
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(requireActivity()) { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(requireContext(), "Login Successful", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireContext(), MainActivity::class.java)
+                    startActivity(intent)
+                    requireActivity().finish() // Close login page
+                } else {
+                    Toast.makeText(requireContext(), "Login Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
 
 
     @Composable
@@ -87,9 +101,10 @@ class Login : Fragment() {
         onSignUpClick: () -> Unit,
         onForgotPasswordClick: () -> Unit
     ) {
-        var username by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
+        var errorMessage by remember { mutableStateOf("") }
         val context = LocalContext.current
 
         Column(
@@ -106,13 +121,16 @@ class Login : Fragment() {
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
             )
+
             Spacer(modifier = Modifier.height(32.dp))
 
             OutlinedTextField(
-                value = username,
-                onValueChange = { username = it },
-                label = { Text("Username") },
-                modifier = Modifier.fillMaxWidth()
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Email") },
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                isError = errorMessage.contains("Email")
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -125,41 +143,43 @@ class Login : Fragment() {
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 trailingIcon = {
-                    val image = if (passwordVisible)
-                        Icons.Filled.Visibility
-                    else Icons.Filled.VisibilityOff
-
-                    val description = if (passwordVisible) "Hide password" else "Show password"
-
+                    val image = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(imageVector = image, description)
+                        Icon(imageVector = image, contentDescription = null)
                     }
-                }
+                },
+                isError = errorMessage.contains("Password")
             )
+
+            if (errorMessage.isNotEmpty()) {
+                Text(
+                    text = errorMessage,
+                    color = Color.Red,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = "Forgot Password?",
                 modifier = Modifier
-                    .clickable {
-                        Toast.makeText(context, "Navigate to Forgot Password", Toast.LENGTH_SHORT)
-                            .show()
-                        onForgotPasswordClick()
-                    }
-                    .align(Alignment.End)
-
+                    .clickable { onForgotPasswordClick() }
+                    .align(Alignment.End),
+                color = Color.Blue
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
             Button(
                 onClick = {
-                    Toast.makeText(context, "Login: $username, $password", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(context, MainActivity::class.java)
-                    startActivity(intent)
-
-                    //onLoginClick(username, password)
+                    if (email.isEmpty() || password.isEmpty()) {
+                        errorMessage = "Email and Password cannot be empty"
+                    } else {
+                        errorMessage = ""
+                        onLoginClick(email, password)
+                    }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -174,14 +194,10 @@ class Login : Fragment() {
             ) {
                 Text(text = "Don't have an account?")
                 Spacer(modifier = Modifier.padding(4.dp))
-
                 Text(
                     text = "Sign Up",
                     color = Color.Blue,
-                    modifier = Modifier.clickable {
-                        findNavController().navigate(R.id.registration)
-                        onSignUpClick()
-                    }
+                    modifier = Modifier.clickable { onSignUpClick() }
                 )
             }
         }
@@ -196,10 +212,4 @@ class Login : Fragment() {
             onForgotPasswordClick = {}
         )
     }
-
-
-
-
-
 }
-
