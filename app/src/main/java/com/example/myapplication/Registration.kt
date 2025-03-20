@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
@@ -35,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -104,9 +107,15 @@ class Registration : Fragment() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text("Create a new account", fontSize = 32.sp, fontWeight = FontWeight.Bold)
-
-            Spacer(modifier = Modifier.height(16.dp))
+//            Text("Create a new account", fontSize = 32.sp, fontWeight = FontWeight.Bold)
+//
+//            Spacer(modifier = Modifier.height(16.dp))
+            Image(
+                painter = painterResource(id = R.drawable.add_user), // Replace with your image
+                contentDescription = "Add User Image",
+                modifier = Modifier
+                    .size(150.dp) // Size of the image
+            )
 
             OutlinedTextField(value = firstName, onValueChange = { firstName = it }, label = { Text("First Name") }, modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.height(16.dp))
@@ -207,8 +216,15 @@ class Registration : Fragment() {
         val regex = Regex("^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#\$%^&+=!]).{8,}\$")
         return regex.matches(password)
     }
-
+    /** Function to validate email format */
+    private fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
     private fun createAccount(email: String, password: String) {
+        if (!isValidEmail(email)) {
+            Toast.makeText(requireContext(), "Invalid Email Format", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->

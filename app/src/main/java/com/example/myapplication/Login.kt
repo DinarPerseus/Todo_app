@@ -6,8 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.content.MediaType.Companion.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -16,9 +20,12 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -114,15 +121,34 @@ class Login : Fragment() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "Login",
-                color = Color.Gray,
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
-            )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            // Default user image
+            Image(
+                painter = painterResource(id = R.drawable.login), // Replace with your image
+                contentDescription = "User Image",
+                modifier = Modifier
+                    .size(150.dp) // Size of the image
+                    //.clip(CircleShape) // Make it circular
+                    //.border(2.dp, Color.Gray, CircleShape) // Optional: Add border around image
+            )
+            Image(
+                painter = painterResource(id = R.drawable.login_text), // Replace with your image
+                contentDescription = "User Image",
+                modifier = Modifier
+                    .size(150.dp) // Size of the image
+                //.clip(CircleShape) // Make it circular
+                //.border(2.dp, Color.Gray, CircleShape) // Optional: Add border around image
+            )
+//            Spacer(modifier = Modifier.height(32.dp))
+//            Text(
+//                text = "Login",
+//                color = Color.Gray,
+//                fontSize = 32.sp,
+//                fontWeight = FontWeight.Bold,
+//                textAlign = TextAlign.Center
+//            )
+
+            //Spacer(modifier = Modifier.height(32.dp))
 
             OutlinedTextField(
                 value = email,
