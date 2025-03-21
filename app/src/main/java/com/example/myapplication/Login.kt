@@ -63,7 +63,7 @@ class Login : Fragment() {
                     findNavController().navigate(R.id.registration)
                 },
                 onForgotPasswordClick = {
-                   // findNavController().navigate(R.id.forgotPassword)
+                    findNavController().navigate(R.id.forgotPassword)
                 }
             )
         }
@@ -139,16 +139,7 @@ class Login : Fragment() {
                 //.clip(CircleShape) // Make it circular
                 //.border(2.dp, Color.Gray, CircleShape) // Optional: Add border around image
             )
-//            Spacer(modifier = Modifier.height(32.dp))
-//            Text(
-//                text = "Login",
-//                color = Color.Gray,
-//                fontSize = 32.sp,
-//                fontWeight = FontWeight.Bold,
-//                textAlign = TextAlign.Center
-//            )
 
-            //Spacer(modifier = Modifier.height(32.dp))
 
             OutlinedTextField(
                 value = email,

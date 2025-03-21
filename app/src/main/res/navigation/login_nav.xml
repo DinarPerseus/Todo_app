@@ -13,7 +13,13 @@
     <fragment
         android:id="@+id/registration"
         android:name="Registration"
-        android:label="Registration"
+        android:label="Sign Up"
         />
+    <fragment
+        android:id="@+id/forgotPassword"
+        android:name="com.example.myapplication.ForgotPassword"
+        android:label="Reset Password"
+        />
+
 
 </navigation>

@@ -116,7 +116,7 @@ class Registration : Fragment() {
                 modifier = Modifier
                     .size(150.dp) // Size of the image
             )
-
+            Spacer(modifier = Modifier.height(13.dp))
             OutlinedTextField(value = firstName, onValueChange = { firstName = it }, label = { Text("First Name") }, modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -190,7 +190,7 @@ class Registration : Fragment() {
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Register")
+                Text("Sign Up")
             }
 
             Spacer(modifier = Modifier.height(16.dp))
