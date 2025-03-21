@@ -17,4 +17,6 @@
     <string name="add_to_card">Add to card</string>
     <string name="checkout">Checkout</string>
     <string name="view_cart">View Cart</string>
+    <string name="to_do_list">To Do List</string>
+    <string name="news">News</string>
 </resources>

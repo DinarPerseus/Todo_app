@@ -5,12 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.dashboard.DashboardFragment">
-
+    tools:context=".ui.news.NewsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvProductItems"
+        android:id="@+id/rvNewsItems"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="20dp"/>
+        android:layout_height="match_parent"/>
 </LinearLayout>

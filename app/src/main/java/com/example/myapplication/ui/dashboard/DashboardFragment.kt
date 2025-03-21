@@ -29,8 +29,8 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        val view = binding.root
+       // _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
         // Initialize RecyclerView
         //addToCartbtn=view.findViewById(R.id.addToCart)
@@ -52,7 +52,7 @@ class DashboardFragment : Fragment() {
                 withContext(Dispatchers.Main) {
                     // Check if the response Data is not null
                     if (!response.data.isNullOrEmpty()) {
-                        // Update the adapter with the products
+
                         productAdapter = ProductAdapter(response.data)
                         rvProducts.adapter = productAdapter
                     } else {
