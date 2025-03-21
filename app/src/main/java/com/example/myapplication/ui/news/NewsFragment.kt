@@ -19,7 +19,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class NewsFragment : Fragment() {
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView1: RecyclerView
+    private lateinit var recyclerView2: RecyclerView
+    private lateinit var recyclerView3: RecyclerView
+    private lateinit var recyclerView4: RecyclerView
     private lateinit var newsAdapter: NewsAdapter
 
     override fun onCreateView(
@@ -27,22 +30,31 @@ class NewsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_news, container, false)
 
-        recyclerView = view.findViewById(R.id.rvNewsItems)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView1 = view.findViewById(R.id.rvNewsItems1)
+        recyclerView1.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+        recyclerView2 = view.findViewById(R.id.rvNewsItems2)
+        recyclerView2.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+        recyclerView3 = view.findViewById(R.id.rvNewsItems3)
+        recyclerView3.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+        recyclerView4 = view.findViewById(R.id.rvNewsItems4)
+        recyclerView4.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
 
-        fetchTechnologyNews()
+        fetchNews("technology", recyclerView1)
+        fetchNews("science", recyclerView2)
+        fetchNews("health", recyclerView3)
+        fetchNews("general", recyclerView4)
 
         return view
     }
 
-    private fun fetchTechnologyNews() {
+    private fun fetchNews(category: String, recyclerView: RecyclerView) {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://newsapi.org/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val newsApiService = retrofit.create(NewsApiService::class.java)
-        val call = newsApiService.getTopHeadlines("us", "technology", "dae4cb4666574f019a2958e6cda0d192")
+        val call = newsApiService.getTopHeadlines("us", category, "dae4cb4666574f019a2958e6cda0d192")
 
         call.enqueue(object : Callback<NewsResponse> {
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {

@@ -19,4 +19,11 @@
     <string name="view_cart">View Cart</string>
     <string name="to_do_list">To Do List</string>
     <string name="news">News</string>
+    <string name="technology_news">Technology News</string>
+    <string name="science_news">Science News</string>
+    <string name="health_news">Health News</string>
+    <string name="general">General</string>
+    <string name="health">Health</string>
+    <string name="science">Science</string>
+    <string name="technology">Technology</string>
 </resources>
