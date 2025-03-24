@@ -26,4 +26,5 @@
     <string name="health">Health</string>
     <string name="science">Science</string>
     <string name="technology">Technology</string>
+    <string name="logout">Logout</string>
 </resources>
