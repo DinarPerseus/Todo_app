@@ -54,6 +54,13 @@ class Login : Fragment() {
 
         auth = Firebase.auth // Initialize Firebase Auth
 
+        // Check if user is already logged in
+        auth.currentUser?.let {
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish() // Close login page
+        }
+
         composeView.setContent {
             LoginPage(
                 onLoginClick = { email, password ->
