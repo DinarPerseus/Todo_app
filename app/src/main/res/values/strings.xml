@@ -27,4 +27,18 @@
     <string name="science">Science</string>
     <string name="technology">Technology</string>
     <string name="logout">Logout</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="duet_gate_gazipur">DUET gate, Gazipur</string>
+    <string name="passionate_android_developer">Passionate Android Developer!</string>
+    <string name="_8801883646206">+8801883646206</string>
+    <string name="dinar">Dinar</string>
+    <string name="dinarmridha_gmail_com">Dinarmridha@gmail.com</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="address">Address</string>
+    <string name="profession">Profession</string>
+    <string name="submit">Submit</string>
+    <string name="back">Back</string>
 </resources>

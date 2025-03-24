@@ -9,8 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.myapplication.Login
 import com.example.myapplication.MainActivity2
 import com.example.myapplication.R
@@ -32,6 +34,7 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
         val btnLogout = binding.btnlogout
+        val btnEditProfile = binding.btneditprofile
         val imageView: ImageView = binding.imageView
         val animZoomInOut: Animation = AnimationUtils.loadAnimation(requireContext(), R.anim.zoom_in_out)
         auth = FirebaseAuth.getInstance()
@@ -57,6 +60,10 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
             requireActivity().finish()
 
+        }
+
+        btnEditProfile.setOnClickListener{
+            findNavController().navigate(R.id.navigation_edit_profile)
         }
 
         return root

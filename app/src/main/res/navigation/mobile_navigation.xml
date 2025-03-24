@@ -21,7 +21,7 @@
         android:id="@+id/navigation_news"
         android:name="com.example.myapplication.ui.news.NewsFragment"
         android:label="News"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_news" />
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.example.myapplication.ui.profile.ProfileFragment"
@@ -29,10 +29,21 @@
         tools:layout="@layout/fragment_profile"
         />
 
+
     <fragment
         android:id="@+id/navigation_cart"
         android:name="com.example.myapplication.ui.cart.CartFragment"
         android:label="@string/view_cart"
         tools:layout="@layout/fragment_cart"
         />
+
+    <fragment
+        android:id="@+id/navigation_edit_profile"
+        android:name="com.example.myapplication.ui.profile.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/edit_profile"
+        />
+
+
+
 </navigation>
