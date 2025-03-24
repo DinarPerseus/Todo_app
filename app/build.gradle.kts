@@ -70,6 +70,8 @@ dependencies {
 
     // Glide (for image loading)
     implementation(libs.glide)
+    implementation(libs.firebase.database)
+    implementation(libs.google.firebase.firestore.ktx)
 //    implementation(libs.firebase.auth)
     annotationProcessor(libs.compiler)
     implementation(platform(libs.firebase.bom))
@@ -120,9 +122,12 @@ dependencies {
 
     implementation(libs.androidx.constraintlayout)
 
-
+    // Firebase
     implementation (libs.firebase.auth.v2101) // or the latest version
     implementation (libs.firebase.core) // Required for Firebase
+
+//    implementation (libs.google.firebase.firestore.ktx)
+//    implementation (libs.firebase.storage.ktx)
 }
 
 

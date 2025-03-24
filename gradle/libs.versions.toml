@@ -13,7 +13,9 @@ espressoCoreVersion = "3.5.1"
 firebaseAuthVersion = "21.0.1"
 firebaseBom = "33.10.0"
 firebaseCore = "21.1.1"
+firebaseFirestoreKtx = "25.1.3"
 firebaseKtx = "21.0.1"
+firebaseStorageKtx = "21.0.1"
 glide = "4.16.0"
 gradle = "8.1.4"
 gradleVersion = "8.1.0"
@@ -47,6 +49,7 @@ navigationCompose = "2.8.9"
 navigationComposeJvmstubs = "2.9.0-alpha08"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.2.0"
+firebaseDatabase = "21.0.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -84,8 +87,10 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-core = { module = "com.google.firebase:firebase-core", version.ref = "firebaseCore" }
 firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx" }
 firebase-ktx = { module = "com.google.firebase:firebase-ktx", version.ref = "firebaseKtx" }
+firebase-storage-ktx = { module = "com.google.firebase:firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 google-firebase-auth = { module = "com.google.firebase:firebase-auth" }
+google-firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 gradle-v810 = { module = "com.android.tools.build:gradle", version.ref = "gradleVersion" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
@@ -112,6 +117,7 @@ androidx-navigation-compose-jvmstubs = { group = "androidx.navigation", name = "
 ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

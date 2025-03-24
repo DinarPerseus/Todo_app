@@ -99,6 +99,7 @@ class Login : Fragment() {
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(requireContext(), "Login Successful", Toast.LENGTH_SHORT).show()
+
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)
                     requireActivity().finish() // Close login page
