@@ -3,6 +3,7 @@ package com.example.myapplication.ui.profile
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -21,12 +22,16 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
     private val firestore = FirebaseFirestore.getInstance()
+    //private lateinit var profilePreferences: ProfilePreferences
 
 
 
@@ -63,11 +68,32 @@ class ProfileFragment : Fragment() {
             }
         }
 
+        //observeUserData()
+        getUserDatafromFirebase()
 
 
 
 
 
+
+
+        btnLogout.setOnClickListener {
+            // Handle logout button click
+            auth.signOut()
+            val intent = Intent(requireContext(), MainActivity2::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+
+        }
+
+        btnEditProfile.setOnClickListener{
+            findNavController().navigate(R.id.navigation_edit_profile)
+        }
+
+        return root
+    }
+
+    private fun getUserDatafromFirebase() {
 
         val usersCollection = firestore.collection("users").document(auth.currentUser?.uid.toString())
 
@@ -87,33 +113,75 @@ class ProfileFragment : Fragment() {
                 binding.tvAddress.text = address
                 binding.tvProfession.text = profession
                 //Glide.with(requireContext()).load(imageUrl).into(imageView)
+//
+//                val userInfo = UserInfo(firstName, phone, email, address, profession)
+//                CoroutineScope(Dispatchers.Main).launch {
+//                    profilePreferences.updateUserInfo(userInfo)
+//                }
+
             } else {
+                binding.tvEmail.text = auth.currentUser?.email
                 Toast.makeText(requireContext(), "User data not found", Toast.LENGTH_SHORT).show()
             }
         }
             .addOnFailureListener {
+                binding.tvEmail.text = auth.currentUser?.email
                 Toast.makeText(requireContext(), "Failed to retrieve user data", Toast.LENGTH_SHORT).show()
 
             }
+    }
+//
+//    private fun observeUserData() {
+//
+//
+//
+//        profilePreferences = ProfilePreferences(requireContext())
+//        CoroutineScope(Dispatchers.Main).launch {
+//            profilePreferences.getUserInfo().collect { userInfo ->
+//                if(userInfo.Name == "User Name" || userInfo.phone == "Phone Number" || userInfo.email == "Email" || userInfo.address == "Address" || userInfo.profession == "Profession"){
+//                    getUserDatafromFirebase()
+//                    return@collect
+//                }
+//                Log.d("ProfileFragment", "UserInfo: $userInfo")
+//                binding.tvName.text = userInfo.Name
+//                binding.tvPhone.text = userInfo.phone
+//                binding.tvEmail.text = userInfo.email
+//                binding.tvAddress.text = userInfo.address
+//                binding.tvProfession.text = userInfo.profession
+//                //Glide.with(requireContext()).load(imageUrl).into(imageView)
+//
+//
+//            }
+//
+//        }
+//
+//
+//    }
+//
+//    private fun saveUserData() {
+//
+//
+//        val tvName = binding.tvName
+//        val tvPhone = binding.tvPhone
+//        val tvEmail = binding.tvEmail
+//        val tvAddress = binding.tvAddress
+//        val tvProfession = binding.tvProfession
+//        val userInfo = UserInfo(tvName.text.toString(), tvPhone.text.toString(), tvEmail.text.toString(), tvAddress.text.toString(), tvProfession.text.toString())
+//        CoroutineScope(Dispatchers.Main).launch {
+//            profilePreferences.updateUserInfo(userInfo)
+//        }
+//
+//    }
 
-        btnLogout.setOnClickListener {
-            // Handle logout button click
-            auth.signOut()
-            val intent = Intent(requireContext(), MainActivity2::class.java)
-            startActivity(intent)
-            requireActivity().finish()
-
-        }
-
-        btnEditProfile.setOnClickListener{
-            findNavController().navigate(R.id.navigation_edit_profile)
-        }
-
-        return root
+    override fun onStop() {
+        super.onStop()
+       // saveUserData()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+
         _binding = null
     }
 }
