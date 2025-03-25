@@ -128,6 +128,9 @@ dependencies {
 
 //    implementation (libs.google.firebase.firestore.ktx)
 //    implementation (libs.firebase.storage.ktx)
+
+    implementation (libs.logging.interceptor)
+
 }
 
 

@@ -8,13 +8,13 @@ class HomeViewModel : ViewModel() {
 
     var todos = MutableLiveData<List<Todo>>(mutableListOf())
 
-    fun addTodo(todoTitle: String) {
-        val todo = Todo(todoTitle)
-        todos.value = todos.value?.plus(todo)
-    }
-
-    fun deleteDoneTodos() {
-        todos.value = todos.value?.filter { !it.isChecked }
-
-    }
+//    fun addTodo(todoTitle: String) {
+//        val todo = Todo(todoTitle)
+//        todos.value = todos.value?.plus(todo)
+//    }
+//
+//    fun deleteDoneTodos() {
+//        todos.value = todos.value?.filter { !it.isChecked }
+//
+//    }
 }

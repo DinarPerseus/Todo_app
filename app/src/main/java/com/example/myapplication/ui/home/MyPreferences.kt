@@ -8,11 +8,13 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "todos_prefs")
 class MyPreferences(private val context: Context) {
@@ -20,7 +22,7 @@ class MyPreferences(private val context: Context) {
 
 
 
-    private val TODOS_KEY = stringPreferencesKey("titlesk")
+    private val TODOS_KEY = stringPreferencesKey(auth.currentUser?.uid.toString())
 
 
     suspend fun updateTodos(list: List<Todo>) {

@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/todo"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/dinar" />
+            app:srcCompat="@drawable/profile" />
 
     </androidx.cardview.widget.CardView>
 
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="@string/dinar"
+        android:text="@string/user_name"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -95,7 +95,7 @@
                     android:id="@+id/tvPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/_8801883646206"
+                    android:text="@string/phone_number"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -117,7 +117,7 @@
                     android:id="@+id/tvEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/dinarmridha_gmail_com"
+                    android:text="@string/email"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -139,7 +139,7 @@
                     android:id="@+id/tvAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/duet_gate_gazipur"
+                    android:text="@string/address"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -161,7 +161,7 @@
                     android:id="@+id/tvProfession"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/passionate_android_developer"
+                    android:text="@string/profession"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
             </LinearLayout>

@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.myapplication.Login
 import com.example.myapplication.MainActivity2
 import com.example.myapplication.R
@@ -61,6 +62,13 @@ class ProfileFragment : Fragment() {
                 else -> false
             }
         }
+
+
+
+
+
+
+
         val usersCollection = firestore.collection("users").document(auth.currentUser?.uid.toString())
 
 
@@ -69,7 +77,7 @@ class ProfileFragment : Fragment() {
                 val firstName = documentSnapshot.getString("firstName")
                 val lastName = documentSnapshot.getString("lastName")
                 val phone = documentSnapshot.getString("phone")
-                val email = documentSnapshot.getString("Email")
+                val email = documentSnapshot.getString("email")
                 val address = documentSnapshot.getString("address")
                 val profession = documentSnapshot.getString("profession")
                 //val imageUrl = documentSnapshot.getString("imageUrl")

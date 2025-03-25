@@ -47,15 +47,18 @@ open class HomeFragment : Fragment() {
         btnAddTodo.setOnClickListener {
             val todoTitle = edtext.text.toString()
 
+
             if (todoTitle.isNotEmpty()) {
                 //saveTodos()
-                homeViewModel.addTodo(todoTitle)
+                //homeViewModel.addTodo(todoTitle)
+                todoAdapter.addTodo(Todo(todoTitle))
                 edtext.text.clear()
             }
         }
 
         del.setOnClickListener {
-            homeViewModel.deleteDoneTodos()
+            //homeViewModel.deleteDoneTodos()
+            todoAdapter.deleteDoneTodos()
             //saveTodos()
         }
 
@@ -77,7 +80,9 @@ open class HomeFragment : Fragment() {
 
         CoroutineScope(Dispatchers.Main).launch {
             myPreferences.getTodos().collect { it ->
-                homeViewModel.todos.value = it
+                //homeViewModel.todos.value = it
+                todoAdapter.todos = it.toMutableList()
+                todoAdapter.notifyDataSetChanged()
             }
 
         }
@@ -105,11 +110,15 @@ open class HomeFragment : Fragment() {
     @OptIn(DelicateCoroutinesApi::class)
     private fun saveTodos() {
 
+
+
         GlobalScope.launch {
             val list = mutableListOf<Todo>()
-            homeViewModel.todos.value?.forEach {
-                list.add(it)
-            }
+//            homeViewModel.todos.value?.forEach {
+//                list.add(it)
+//            }
+            list.addAll(todoAdapter.todos)
+            Log.d("HomeFragment", "Saving todos: $list")
             myPreferences.updateTodos(list)
         }
 
